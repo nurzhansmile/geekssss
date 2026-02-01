@@ -50,6 +50,7 @@ btnMinus.addEventListener("click", function () {
   }
 });
 
+
 btnPlus.addEventListener("click", function () {
   value++;
   bValue.innerText = value;
