@@ -54,16 +54,6 @@
 
 // const slide = document.querySelector('.slide')
 const slides = document.querySelectorAll(".slide");
-
-// slide.onclick = ()=>{
-// openSlide()
-// }
-// function openSlide(){
-//  const slideActive = document.querySelector(".slide.active")
-//     slideActive.classList.remove("active")
-//     const newSlide = slides[index]
-//     newSlide.classList.add ("active")
-// }
 for (let i = 0; i < slides.length; i++) {
   const nav = slides[i];
   nav.onclick = () => {

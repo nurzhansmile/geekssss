@@ -1,0 +1,52 @@
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mianWrap {
+  width: 400px;
+  height: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 20px;
+}
+.passwordWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  height: 70%;
+}
+.block {
+  width: 60px;
+  height: 80px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+  text-align: center;
+  padding: 10px;
+  font-size: 50px;
+}
+.blocks {
+  display: flex;
+  gap: 10px;
+}
+
+.passwordWrap .img {
+  width: 150px;
+}
+.refresh{
+  width: 280px;
+  height: 50px;
+  box-shadow: 0 0 5px rgba(36, 175, 17, 0.7);
+  background-color: #67b122;
+  border-radius: 16px;
+  border: none;
+  color: white;
+  font-size: 20px;
+}
