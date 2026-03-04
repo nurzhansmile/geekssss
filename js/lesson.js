@@ -26,3 +26,13 @@ phoneButton.onclick = () => {
 //   }
 // };
 // count();
+
+setTimeout(()=>{
+    console.log("ok");
+
+}, 2000)
+
+const interval = setInterval(()=>{
+    console.log("ok");
+ 
+}, 2000)
