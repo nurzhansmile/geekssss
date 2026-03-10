@@ -21,11 +21,11 @@ setTimeout(()=>{
 openModal()
 },10000)
 
-const scroll = function() {
-    if(window.scrollY + window.innerHeight + 1 >= document.documentElement.scrollHeight){
-        openModal()
-        document.removeEventListener("scroll", scroll)
-    }
-}
+// const scroll = function() {
+//     if(window.scrollY + window.innerHeight + 1 >= document.documentElement.scrollHeight){
+//         openModal()
+//         document.removeEventListener("scroll", scroll)
+//     }
+// }
 
-document.addEventListener('scroll', scroll)
+// document.addEventListener('scroll', scroll)
