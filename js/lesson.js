@@ -40,7 +40,6 @@ const tabContentBlokcs = document.querySelectorAll(".tab_content_block");
 const tabContentItems = document.querySelectorAll(".tab_content_item");
 const tabContentBlockParent = document.querySelector(".tab_contents_block");
 
-
 function hideContent() {
   tabContentBlokcs.forEach((tabBlock) => {
     tabBlock.style.display = "none";
@@ -61,12 +60,11 @@ showContent();
 const autoSlider = (i = 0) => {
   setInterval(() => {
     i++;
-    if (i > tabContentBlokcs.length-1) {
+    if (i > tabContentBlokcs.length - 1) {
       i = 0;
     }
     hideContent();
     showContent(i);
-    
   }, 3000);
 };
 
@@ -82,3 +80,87 @@ tabContentBlockParent.onclick = (e) => {
 };
 
 autoSlider();
+
+const innerConverter = document.querySelector(".inner_converter");
+const somInput = document.querySelector("#som");
+const usdInput = document.querySelector("#usd");
+const euroInput = document.querySelector("#eur  ");
+
+const converter = (element, targetElement, targetElement2) => {
+  element.oninput = () => {
+    const request = new XMLHttpRequest();
+    request.open("GET", "../data/converter.json");
+    request.setRequestHeader("Content-type", "application/json");
+    request.send();
+
+    request.onload = () => {
+      const data = JSON.parse(request.response);
+      console.log(data);
+
+      if (element.id === "som") {
+        targetElement.value = (element.value / data.usd).toFixed(2);
+        targetElement2.value = (element.value / data.euro).toFixed(2);
+      }
+
+      if (element.id === "usd") {
+        targetElement.value = (element.value * data.usd).toFixed(2);
+        targetElement2.value = (element.value * 1.15).toFixed(2);
+      }
+      if (element.id === "euro") {
+        targetElement.value = (element.value * data.euro).toFixed(2);
+        targetElement2.value = (element.value * 0.87).toFixed(2);
+      }
+
+      if (element.value === "") {
+        targetElement.value = "";
+      }
+      if (element.value === "") {
+        targetElement2.value = "";
+      }
+    };
+  };
+};
+
+converter(somInput, usdInput, euroInput);
+converter(usdInput, somInput, euroInput);
+converter(euroInput, somInput, usdInput);
+
+const btnPrev = document.querySelector("#btn-prev");
+const btnNext = document.querySelector("#btn-next");
+const cardBlock = document.querySelector(".card");
+cardId = 1;
+
+function getTodosById() {
+  if (cardId > 10) {
+    cardId = 1;
+  } else if (cardId < 1) {
+    cardId = 10;
+  }
+  fetch(`https://jsonplaceholder.typicode.com/todos/${cardId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const { title, id, completed } = data;
+      cardBlock.innerHTML = `
+        <span>${title}</span>
+        <span>${completed}</span>
+        <p>${id}</p>
+      `;
+    });
+}
+
+getTodosById();
+
+btnNext.onclick = () => {
+  cardId++;
+  getTodosById();
+};
+btnPrev.onclick = () => {
+  cardId--;
+  getTodosById();
+};
+
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+  });

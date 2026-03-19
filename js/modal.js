@@ -17,9 +17,9 @@ modal.onclick = (e) => {
   if (e.target === modal) closeModal();
 };
 
-setTimeout(()=>{
-openModal()
-},10000)
+// setTimeout(()=>{
+// openModal()
+// },10000)
 
 // const scroll = function() {
 //     if(window.scrollY + window.innerHeight + 1 >= document.documentElement.scrollHeight){
