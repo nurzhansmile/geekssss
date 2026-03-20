@@ -1,40 +1,44 @@
 const defaultPhoto = "../image/user.jpg";
-const defaultGif = "../image/defaultGif.gif";
 const cardsWrap = document.querySelector(".cardsWrap");
 
-const characters = new XMLHttpRequest();
-characters.open("GET", "../data/data.json");
-characters.setRequestHeader("Content-Type", "application/json");
-characters.send();
+const getPosts = async () => {
+  try {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/posts?_limit=8",
+    );
+    const data = await response.json();
 
-characters.onload = () => {
-  const data = JSON.parse(characters.response);
-  data.forEach((dragon) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    const abilities = dragon.abilities.join("<br> ");
-
-    card.innerHTML = `
+    data.forEach((dragon) => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      const abilities = dragon.body;
+      card.innerHTML = `
     
         <div class="cardPhoto">
         <img class="photo static" src="${dragon.photo || defaultPhoto}" >
         </div>
         <div class="cardInfo">
-            <h4>${dragon.name}</h4>
+            <h4>${dragon.title}</h4>
             <span>${abilities}</span>
         </div>
  
     `;
-    cardsWrap.append(card);
-  });
+      cardsWrap.append(card);
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+getPosts();
+
+const hiccupInfoGet = async () => {
+  try {
+    const response = await fetch("../data/any.json");
+    const data = await response.json();
+    console.log(data);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-const hiccup = new XMLHttpRequest
-hiccup.open('GET', '../data/any.json')
-hiccup.setRequestHeader('Content-type', 'application/json')
-hiccup.send()
-
-hiccup.onload = ()=>{
-    console.log(JSON.parse(hiccup.response));
-    
-}
+hiccupInfoGet();

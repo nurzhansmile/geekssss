@@ -87,15 +87,10 @@ const usdInput = document.querySelector("#usd");
 const euroInput = document.querySelector("#eur  ");
 
 const converter = (element, targetElement, targetElement2) => {
-  element.oninput = () => {
-    const request = new XMLHttpRequest();
-    request.open("GET", "../data/converter.json");
-    request.setRequestHeader("Content-type", "application/json");
-    request.send();
-
-    request.onload = () => {
-      const data = JSON.parse(request.response);
-      console.log(data);
+  element.oninput = async () => {
+    try {
+      const response = await fetch(`../data/converter.json`);
+      const data = await response.json();
 
       if (element.id === "som") {
         targetElement.value = (element.value / data.usd).toFixed(2);
@@ -117,7 +112,9 @@ const converter = (element, targetElement, targetElement2) => {
       if (element.value === "") {
         targetElement2.value = "";
       }
-    };
+    } catch (e) {
+      console.log(e);
+    }
   };
 };
 
@@ -130,22 +127,29 @@ const btnNext = document.querySelector("#btn-next");
 const cardBlock = document.querySelector(".card");
 cardId = 1;
 
-function getTodosById() {
-  if (cardId > 10) {
-    cardId = 1;
-  } else if (cardId < 1) {
-    cardId = 10;
-  }
-  fetch(`https://jsonplaceholder.typicode.com/todos/${cardId}`)
-    .then((response) => response.json())
-    .then((data) => {
-      const { title, id, completed } = data;
-      cardBlock.innerHTML = `
+async function getTodosById() {
+  try {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/todos/${cardId}`,
+    );
+    const data = await response.json();
+    console.log(data, "lll");
+
+    if (cardId > 10) {
+      cardId = 1;
+    } else if (cardId < 1) {
+      cardId = 10;
+    }
+
+    const { title, id, completed } = data;
+    cardBlock.innerHTML = `
         <span>${title}</span>
         <span>${completed}</span>
         <p>${id}</p>
       `;
-    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 getTodosById();
@@ -159,8 +163,48 @@ btnPrev.onclick = () => {
   getTodosById();
 };
 
-fetch("https://jsonplaceholder.typicode.com/posts")
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-  });
+async function postsGet() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const data = await response.json();
+    console.log(data, "ssssss");
+  } catch (e) {
+    console.log(e);
+  }
+}
+postsGet();
+
+const searchInput = document.querySelector("#searchInput");
+const searchBtn = document.querySelector("#search");
+const city = document.querySelector(".city");
+const temp = document.querySelector(".temp");
+
+const API_KEY = "291aa3950880603684e43c6cc36aed88";
+const BASE_API = "https://api.openweathermap.org/data/2.5/weather";
+
+searchBtn.onclick = async () => {
+  try {
+    if (searchInput.value !== "") {
+      const response = await fetch(
+        `${BASE_API}?q=${searchInput.value}&units=metric&lang=ru&appid=${API_KEY}`,
+      );
+      const data = await response.json();
+      if (data.name) {
+        city.innerHTML = data.name;
+        city.style.color = "white";
+        temp.innerHTML = Math.round(data.main.temp) + "&deg;C";
+      } else {
+        city.innerHTML = "Город с таким названием не найден";
+        temp.innerHTML = "";
+        city.style.color = "red";
+      }
+      searchInput.value = "";
+    } else {
+      city.innerHTML = "Введите название города";
+      temp.innerHTML = "";
+      city.style.color = "red";
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
